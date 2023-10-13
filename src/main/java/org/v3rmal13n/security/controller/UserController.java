@@ -1,12 +1,8 @@
 package org.v3rmal13n.security.controller;
 
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,8 +14,6 @@ import org.v3rmal13n.security.repository.ProfileRepository;
 import org.v3rmal13n.security.user.Profile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,8 +93,8 @@ public class UserController {
         }
     }
 
-    @PutMapping("/profile/telegram")
-    public ResponseEntity<Profile> postTelegram(@RequestBody TelegramRequest telegramRequest, Authentication authentication) {
+    @PutMapping("/profile/tgram")
+    public ResponseEntity<Profile> postTelegram(@RequesttBody TelegramRequest telegramRequest, Authentication authentication) {
         String email = authentication.getName();
         Profile profile = profileRepository.findByEmail(email);
         if (profile != null) {
