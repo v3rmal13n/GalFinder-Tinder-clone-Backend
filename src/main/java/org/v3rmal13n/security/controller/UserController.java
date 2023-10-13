@@ -85,16 +85,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/profile/photo")
-//    public ResponseEntity<Profile> getPhoto(Authentication authentication) {
-//        String email = authentication.getName();
-//        Profile profile = profileRepository.findByEmail(email);
-//        if (profile != null) {
-//            return ResponseEntity.ok(profile);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-
     @GetMapping("/profile/photo")
     public ResponseEntity<byte[]> getPhoto(Authentication authentication) {
         String email = authentication.getName();
@@ -107,5 +97,16 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/profile/telegram")
+    public ResponseEntity<Profile> postTelegram(@RequestBody TelegramRequest telegramRequest, Authentication authentication) {
+        String email = authentication.getName();
+        Profile profile = profileRepository.findByEmail(email);
+        if (profile != null) {
+            profile.setTelegram(telegramRequest.getTelegram());
+            return ResponseEntity.ok(profileRepository.save(profile));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
  }
