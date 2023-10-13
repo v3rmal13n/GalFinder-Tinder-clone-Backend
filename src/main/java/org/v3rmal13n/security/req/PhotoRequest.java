@@ -1,4 +1,4 @@
-package org.v3rmal13n.security.controller;
+package org.v3rmal13n.security.req;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;

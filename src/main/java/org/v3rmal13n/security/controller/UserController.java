@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.v3rmal13n.security.repository.ProfileRepository;
+import org.v3rmal13n.security.req.GenderRequest;
+import org.v3rmal13n.security.req.TelegramRequest;
 import org.v3rmal13n.security.user.Profile;
 
 import java.io.IOException;
@@ -94,7 +96,7 @@ public class UserController {
     }
 
     @PutMapping("/profile/tgram")
-    public ResponseEntity<Profile> postTelegram(@RequesttBody TelegramRequest telegramRequest, Authentication authentication) {
+    public ResponseEntity<Profile> postTelegram(@RequestBody TelegramRequest telegramRequest, Authentication authentication) {
         String email = authentication.getName();
         Profile profile = profileRepository.findByEmail(email);
         if (profile != null) {
