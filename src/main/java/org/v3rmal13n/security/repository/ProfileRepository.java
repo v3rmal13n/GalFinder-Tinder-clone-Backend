@@ -5,4 +5,6 @@ import org.v3rmal13n.security.user.Profile;
 
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     public Profile findByEmail(String email);
+    public Profile findByAgeAndGender(int age, String gender);
+    public Profile findByAge(int age);
 }
