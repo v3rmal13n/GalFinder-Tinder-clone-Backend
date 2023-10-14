@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.v3rmal13n.security.repository.ProfileRepository;
+import org.v3rmal13n.security.req.AgeRequest;
 import org.v3rmal13n.security.req.GenderRequest;
 import org.v3rmal13n.security.req.TelegramRequest;
 import org.v3rmal13n.security.user.Profile;
@@ -95,12 +96,23 @@ public class UserController {
         }
     }
 
-    @PutMapping("/profile/tgram")
-    public ResponseEntity<Profile> postTelegram(@RequestBody TelegramRequest telegramRequest, Authentication authentication) {
+    @PutMapping("/profile/telegram")
+    public ResponseEntity<Profile> putTelegram(@RequestBody TelegramRequest telegramRequest, Authentication authentication) {
         String email = authentication.getName();
         Profile profile = profileRepository.findByEmail(email);
         if (profile != null) {
             profile.setTelegram(telegramRequest.getTelegram());
+            return ResponseEntity.ok(profileRepository.save(profile));
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @PutMapping("/profile/age")
+    public ResponseEntity<Profile> putAge(@RequestBody AgeRequest ageRequest, Authentication authentication) {
+        String email = authentication.getName();
+        Profile profile = profileRepository.findByEmail(email);
+        if (profile != null) {
+            profile.setAge(ageRequest.getAge());
             return ResponseEntity.ok(profileRepository.save(profile));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

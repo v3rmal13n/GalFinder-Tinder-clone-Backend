@@ -18,6 +18,7 @@ public class Profile {
     private String lastname;
     private String email;
     private String telegram;
+    private int age;
 
     @Lob
     @Column(name = "photo", columnDefinition = "BLOB")
