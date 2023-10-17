@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.v3rmal13n.security.repository.ProfileRepository;
 import org.v3rmal13n.security.user.Profile;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -32,17 +33,27 @@ public class OtherUserController {
 //    }
 
     @GetMapping("/profile")
-    public ResponseEntity<Profile> otherProfile(Authentication authentication) {
+    public ResponseEntity<?> otherProfile(Authentication authentication) {
         String email = authentication.getName();
         Profile profile = profileRepository.findByEmail(email);
         String gender = profile.getGender();
         int age = profile.getAge();
+        int minAge = age - 3;
+        int maxAge = age + 3;
 
         if (profile != null && "male".equals(gender)) {
-            return ResponseEntity.ok(profileRepository.findByAgeAndGender(profile.getAge(), "female"));
+            List<Profile> profiles = profileRepository.findByGenderAndAgeBetween(
+                    "female", minAge, maxAge
+            );
+            int count = profiles.size();
+            return ResponseEntity.ok(count);
         }
         if (profile != null && "female".equals(gender)) {
-            return ResponseEntity.ok(profileRepository.findByAgeAndGender(profile.getAge(), "male"));
+            List<Profile> profiles = profileRepository.findByGenderAndAgeBetween(
+                    "male", minAge, maxAge
+            );
+            int count = profiles.size();
+            return ResponseEntity.ok(count);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
