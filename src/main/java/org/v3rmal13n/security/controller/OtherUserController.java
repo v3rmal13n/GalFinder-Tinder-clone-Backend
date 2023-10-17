@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.v3rmal13n.security.repository.ProfileRepository;
 import org.v3rmal13n.security.user.Profile;
 
+import java.util.Random;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/other")
@@ -33,12 +35,16 @@ public class OtherUserController {
     public ResponseEntity<Profile> otherProfile(Authentication authentication) {
         String email = authentication.getName();
         Profile profile = profileRepository.findByEmail(email);
-        if (profile != null && profile.getGender() == "male") {
+        String gender = profile.getGender();
+        int age = profile.getAge();
+
+        if (profile != null && "male".equals(gender)) {
             return ResponseEntity.ok(profileRepository.findByAgeAndGender(profile.getAge(), "female"));
         }
-        if (profile != null && profile.getGender() == "female") {
+        if (profile != null && "female".equals(gender)) {
             return ResponseEntity.ok(profileRepository.findByAgeAndGender(profile.getAge(), "male"));
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
 }
